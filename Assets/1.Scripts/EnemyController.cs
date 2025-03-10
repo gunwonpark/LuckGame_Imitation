@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -10,6 +11,9 @@ public class EnemyController : MonoBehaviour
 
     #region Data
     [SerializeField] private float _moveSpeed = 1.0f;
+    private float _slowDownDistance = 0.3f;
+    private float _minMoveSpeed = 0.5f;
+    private float _maxMoveSpeed = 1.0f;
     #endregion
     public void Init(Transform[] wayPoint)
     {
@@ -25,7 +29,7 @@ public class EnemyController : MonoBehaviour
     }
 
     private void Update()
-    {
+    {        
         transform.position = Vector2.MoveTowards(transform.position, _nextPosition, _moveSpeed * Time.deltaTime);
     }
 
@@ -34,12 +38,32 @@ public class EnemyController : MonoBehaviour
     {
         while (true)
         {
-            if(Vector2.Distance(transform.position, _nextPosition) < 0.02f)
+            float distance = Vector2.Distance(transform.position, _nextPosition);
+
+            // 부드러운 움직임 구현
+            CaclateMoveSpeed(distance);
+
+            if(distance < 0.02f)
             {
                 SetNextPosition();
             }
 
             yield return null;
+        }
+    }
+
+
+    private void CaclateMoveSpeed(float distance)
+    {
+        if(distance <= _slowDownDistance)
+        {
+            float t = distance / _slowDownDistance;
+            t= t * t * (3f - 2f * t);
+            _moveSpeed = Mathf.Lerp(_minMoveSpeed, _maxMoveSpeed, t);
+        }
+        else
+        {
+            _moveSpeed = 1.0f;
         }
     }
 
