@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.pkw.tools": {
+      "version": "https://github.com/gunwonpark/PKW_Tools.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e4f7d64f7508980dad416ebceff927d3c0ebc35e"
+    },
     "com.unity.2d.animation": {
       "version": "10.1.4",
       "depth": 1,
