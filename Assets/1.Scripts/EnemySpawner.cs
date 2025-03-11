@@ -20,9 +20,11 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnEnemy()
     {
-        yield return new WaitForSeconds(_spawnTime);
-
-        EnemyController enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
-        enemy.Init(wayPoints);
+        while(true)
+        {
+            yield return new WaitForSeconds(_spawnTime);
+            EnemyController enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+            enemy.Init(wayPoints);
+        }
     }
 }

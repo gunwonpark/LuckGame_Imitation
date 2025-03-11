@@ -14,7 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
   m_GUID: a1264e5fa3f7ec040ad4a7a84ecee239
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 8904284e40d2942418eb74bb048018a6
+    m_Address: Assets/3.Resources/Prefabs/RedSlime.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a89830f05c22b3e4dba3deafa54f9f9e
+    m_Address: Assets/3.Resources/Prefabs/DarkSlime.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd2be32ad5e6591488c2fd9f9275a8af
+    m_Address: Assets/3.Resources/Prefabs/BlueSlime.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e91e7ec64f2b8f5408a2b482914f6ce7, type: 2}
   m_SchemaSet:

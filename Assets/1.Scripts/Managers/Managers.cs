@@ -46,10 +46,10 @@ public class Managers : MonoBehaviour
                 DontDestroyOnLoad(go);
                 s_instance = go.GetComponent<Managers>();
             }
-
             return s_instance;
         }
     }
 
 
+   
 }
