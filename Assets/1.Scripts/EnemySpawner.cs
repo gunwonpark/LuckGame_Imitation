@@ -12,6 +12,7 @@ public class EnemySpawner : MonoBehaviour
     #region Data
     private float _spawnTime = 2.0f;
     #endregion
+
     private void Start()
     {
         StartCoroutine(SpawnEnemy());
