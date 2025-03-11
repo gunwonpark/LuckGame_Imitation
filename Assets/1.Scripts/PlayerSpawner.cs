@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 // 단순한 빠른 구현
 public class PlayerSpawner : MonoBehaviour
@@ -54,12 +55,9 @@ public class PlayerSpawner : MonoBehaviour
         // DOTween 시퀀스 생성
         Sequence sequence = DOTween.Sequence();
 
-        Vector3 direction = (playerSpawnPosition[index].position - spawnPos.position).normalized;
-        direction = direction + Vector3.up;
+        Vector3[] path = GetPosition(index);
 
-        Vector3 midPath = spawnPos.position + direction.normalized * Vector3.Distance(spawnPos.position, playerSpawnPosition[index].position) * 1.2f;
-
-        go.transform.DOPath(new Vector3[] { spawnPos.position, midPath, playerSpawnPosition[index].position }, 0.5f, PathType.CatmullRom)
+        go.transform.DOPath(path, 0.5f, PathType.Linear)
             .SetEase(Ease.Linear).OnComplete(() =>
             {
                 Managers.Resource.Destroy(go);
@@ -68,6 +66,40 @@ public class PlayerSpawner : MonoBehaviour
             });
 
         SpawnPlayer(player, index);
+    }
+
+
+    public Vector3[] GetPosition(int index, int cnt = 20)
+    {
+        Vector3[] positions = new Vector3[cnt];
+
+        Vector3[] points = new Vector3[]
+        {
+            spawnPos.position,
+            spawnPos.position + Vector3.up * 15f,
+            playerSpawnPosition[index].position + Vector3.up * 2f,
+            playerSpawnPosition[index].position
+        };
+
+        for (int i = 0; i < cnt; i++)
+        {
+            float t = i / (float)(cnt - 1);
+            Vector3 pos = Bezier(points[0], points[1], points[2], points[3], t);
+            positions[i] = pos;
+        }
+
+        return positions;
+    }
+    private Vector3 Bezier(Vector3 P0, Vector3 P1, Vector3 P2, Vector3 P3, float t)
+    {
+        Vector3 M0 = Vector3.Lerp(P0, P1, t);
+        Vector3 M1 = Vector3.Lerp(P1, P2, t);
+        Vector3 M2 = Vector3.Lerp(P2, P3, t);
+
+        Vector3 B0 = Vector3.Lerp(M0, M1, t);
+        Vector3 B1 = Vector3.Lerp(M1, M2, t);
+
+        return Vector3.Lerp(B0, B1, t);
     }
 
     private void ShowPlayer(int index)
