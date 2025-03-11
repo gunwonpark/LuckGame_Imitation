@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5795404329346476814}
   - component: {fileID: -3561155187854094788}
   - component: {fileID: -2317833604008174253}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpawnPosition
   m_TagString: SpawnTile
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -91,4 +91,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 299d1927214ab14469a1bc5ecffd2883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canSpawn: 1

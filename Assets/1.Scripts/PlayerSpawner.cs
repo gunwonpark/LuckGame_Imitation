@@ -20,7 +20,10 @@ public class PlayerSpawner : MonoBehaviour
     }
     public void Init()
     {
-        
+        for(int i = 0; i < playerSpawnPosition.Length; i++)
+        {
+            playerSpawnPosition[i].Init(i);
+        }
     }
 
     public void Spawn()
@@ -142,5 +145,79 @@ public class PlayerSpawner : MonoBehaviour
         }
 
         return index;
+    }
+
+    private Tile focusTile = null;
+    private Tile targetTile = null;
+    public SelectPointer pointer;
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.TryGetComponent(out Tile tile))
+                {
+                    focusTile = tile;
+                    pointer.SetCurEdge(focusTile.transform.position);
+                }
+            }
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            if(focusTile != null)
+            {
+                Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+                if (hit.collider != null)
+                {
+                    if (hit.collider.gameObject.TryGetComponent(out Tile tile))
+                    {
+                        targetTile = tile;
+                    }
+                }
+            }
+
+            if(focusTile != null && targetTile != null)
+            {
+                pointer.SetTargetEdge(targetTile.transform.position);
+                pointer.SetLine(focusTile.transform.position, targetTile.transform.position);
+            }
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (focusTile != null && targetTile == null)
+            {
+                // 타일에 있는 플레이어 정보를 띄어 준다
+            }
+
+            if (focusTile != null && targetTile != null)
+            {
+                SwapPosition(focusTile, targetTile);
+            }
+
+            pointer.ResetAll();
+            focusTile = null;
+        }
+    }
+
+    private void SwapPosition(Tile focusTile, Tile targetTile)
+    {
+        int focusIndex = focusTile.PositionIndex;
+        int targetIndex = targetTile.PositionIndex;
+        
+        Vector3 focusPos = focusTile.transform.position;
+        Vector3 targetPos = targetTile.transform.position;
+
+        focusTile.transform.position = targetPos;
+        targetTile.transform.position = focusPos;
+
+        playerSpawnPosition[focusIndex] = targetTile;
+        playerSpawnPosition[targetIndex] = focusTile;
+
+        RePositionPlayer(focusIndex);
+        RePositionPlayer(targetIndex);
     }
 }

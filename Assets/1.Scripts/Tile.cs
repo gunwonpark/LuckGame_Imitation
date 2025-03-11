@@ -1,17 +1,21 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    [SerializeField] private bool _canSpawn = true;
-    public bool CanSpawn => _players.Count < MaxPlayerCount;
-
-    public int PlayerID { get; private set; } = -1;
     private List<PlayerController> _players = new List<PlayerController>();
-    
+    public int PlayerID { get; private set; } = -1;
     public int PlayerCount => _players.Count;
     public int MaxPlayerCount { get; private set; } = 3;
+    public int PositionIndex { get; private set; } = -1;
+    public bool CanSpawn => _players.Count < MaxPlayerCount;
+
+    public void Init(int index)
+    {
+        PositionIndex = index;
+    }
 
     public void SpawnPlayer(PlayerController player)
     {
@@ -38,7 +42,15 @@ public class Tile : MonoBehaviour
 
     public void RePositionPlayer(int index)
     {
-        if (PlayerCount == 1) return;
+        PositionIndex = index;
+
+        if (PlayerCount == 0) return;
+
+        if (PlayerCount == 1)
+        {
+            _players[0].transform.position = transform.position;
+            return;
+        }
 
         Vector3 startPosition = transform.position + Vector3.up * 0.3f;
         Vector3 endPosition = transform.position + Vector3.down * 0.3f;
@@ -50,10 +62,11 @@ public class Tile : MonoBehaviour
         foreach (var player in _players)
         {
             Vector3 get_left_right_position = count++ % 2 == 0 ? Vector3.left : Vector3.right;
-            player.transform.position = curPosition + get_left_right_position * 0.3f;
+            player.transform.DOMove(curPosition + get_left_right_position * 0.3f, 1f);
             curPosition += Vector3.down * spacing;
         }
     }
 
+    
 
 }
