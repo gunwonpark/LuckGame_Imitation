@@ -17,13 +17,14 @@ public class Tile : MonoBehaviour
         PositionIndex = index;
     }
 
-    public void SpawnPlayer(PlayerController player)
+    public void SpawnPlayer(int id)
     {
-        PlayerController newPlayer = Instantiate(player, this.transform.position, Quaternion.identity);
+        PlayerController newPlayer = Managers.Resource.Instantiate(Managers.Data.PlayerDatas[id].prefabName, this.transform.position).GetComponent<PlayerController>();
 
-        PlayerID = newPlayer.ID;
+        PlayerID = id;
 
         _players.Add(newPlayer);
+
         newPlayer.gameObject.SetActive(false);
     }
     public void DeSpawnPlayer()
@@ -48,7 +49,7 @@ public class Tile : MonoBehaviour
 
         if (PlayerCount == 1)
         {
-            _players[0].transform.position = transform.position;
+            _players[0].transform.DOMove(transform.position, 1f);
             return;
         }
 

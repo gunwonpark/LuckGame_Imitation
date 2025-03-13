@@ -10,14 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: Effects
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
-  m_GUID: a1264e5fa3f7ec040ad4a7a84ecee239
-  m_SerializeEntries: []
+  m_GroupName: Effects
+  m_GUID: e81828cec2ddac947877de96dbb7f1af
+  m_SerializeEntries:
+  - m_GUID: a6456de2ac68bfe419703ca787991b5d
+    m_Address: SpawnEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e91e7ec64f2b8f5408a2b482914f6ce7, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 166effb636696a34683c69f4f9286830, type: 2}
-    - {fileID: 11400000, guid: 89d895e2f58ef1a4881167c4083ebe1e, type: 2}
+    - {fileID: 11400000, guid: 0aba271d8f562da4ea3eb2542b2df355, type: 2}
+    - {fileID: 11400000, guid: 9cdfec44df2f73e47b88a5a001e846c8, type: 2}

@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,9 +9,6 @@ public class PlayerSpawner : MonoBehaviour
 {
     #region Data
     public Tile[] playerSpawnPosition;
-    public PlayerController playerPrefab;
-    public PlayerController playerPrefab2;
-    public GameObject SpawnEffect;
     public Transform spawnPos;
     #endregion
 
@@ -28,12 +26,10 @@ public class PlayerSpawner : MonoBehaviour
 
     public void Spawn()
     {
-        // 임시 테스트를 위한 랜덤 오브젝트 찾기
-        int value = Random.Range(0, 2);
+        List<int> playerIDList = Managers.Data.PlayerDatas.Keys.ToList();
+        int randomID = playerIDList[Random.Range(0, playerIDList.Count)];
 
-        PlayerController player = value == 0 ? playerPrefab : playerPrefab2;
-
-        int index = FindEmptyIndex(player);
+        int index = FindEmptyIndex(randomID);
 
         // 어처피 20마리로 제한되어 있어서 그럴일은 없다
         if (index == -1)
@@ -42,7 +38,7 @@ public class PlayerSpawner : MonoBehaviour
             return;
         }
 
-        GameObject go = Instantiate(SpawnEffect, spawnPos.position, Quaternion.identity);
+        GameObject go = Managers.Resource.Instantiate("SpawnEffect", spawnPos.position);
 
         // DOTween 시퀀스 생성
         Sequence sequence = DOTween.Sequence();
@@ -57,7 +53,7 @@ public class PlayerSpawner : MonoBehaviour
                 RePositionPlayer(index);
             });
 
-        SpawnPlayer(player, index);
+        SpawnPlayer(randomID, index);
     }
 
 
@@ -99,9 +95,9 @@ public class PlayerSpawner : MonoBehaviour
         playerSpawnPosition[index].ShowPlayer();
     }
 
-    private void SpawnPlayer(PlayerController player, int index)
+    private void SpawnPlayer(int id, int index)
     {
-        playerSpawnPosition[index].SpawnPlayer(player);
+        playerSpawnPosition[index].SpawnPlayer(id);
     }
 
     //플레이어의 탄생 지점에 1개 이상이 있다면 위치를 조정해 준다
@@ -109,12 +105,10 @@ public class PlayerSpawner : MonoBehaviour
     {
         playerSpawnPosition[index].RePositionPlayer(index);
     }
-
-    // 현재는 플레이어의 해쉬값을 통해 찾아내지만 추후에는 player의 고유 id값을 통해 찾아낸다
-    private int FindPreviousIndex(PlayerController player)
+    
+    private int FindPreviousIndex(int id)
     {
         int index = -1;
-        int id = player.ID;
 
         for(int i = 0; i < playerSpawnPosition.Length; i++)
         {
@@ -129,9 +123,9 @@ public class PlayerSpawner : MonoBehaviour
         return index;
     }
 
-    private int FindEmptyIndex(PlayerController player)
+    private int FindEmptyIndex(int id)
     {
-        int index = FindPreviousIndex(player);
+        int index = FindPreviousIndex(id);
 
         if (index != -1) return index;
 
@@ -147,6 +141,7 @@ public class PlayerSpawner : MonoBehaviour
         return index;
     }
 
+    // 타일의 이동 관리
     private Tile focusTile = null;
     private Tile targetTile = null;
     public SelectPointer pointer;

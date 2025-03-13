@@ -2,7 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : CreatureController
 {
     private Transform[] _wayPoint;
     private Vector2 _nextPosition;

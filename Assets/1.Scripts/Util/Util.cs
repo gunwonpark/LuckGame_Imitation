@@ -16,3 +16,7 @@ public static class CoroutineHelper
         return waitForSeconds;
     }
 }
+
+public static class Util
+{
+}

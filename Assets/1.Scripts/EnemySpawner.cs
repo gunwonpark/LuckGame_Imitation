@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     #region юс╫ц
-    public EnemyController enemyPrefab;
     public Transform[] wayPoints;
     #endregion
 
@@ -23,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(_spawnTime);
-            EnemyController enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+            EnemyController enemy = Managers.Resource.Instantiate("RedSlime", transform.position).GetComponent<EnemyController>();
             enemy.Init(wayPoints);
         }
     }

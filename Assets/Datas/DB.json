@@ -1,0 +1,14 @@
+{
+    "playerDatas": [
+        {
+            "id": 1000000001,
+            "prefabName": "Player1",
+            "rare": 0
+        },
+        {
+            "id": 1000000002,
+            "prefabName": "Player2",
+            "rare": 0
+        }
+    ]
+}
